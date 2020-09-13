@@ -2,10 +2,10 @@
   <div class="Recipes">
     <div
       v-for="(item,index) in recipes"
-      :key="index"
+      :key="index + 'recipes'"
       class="Recipes__item"
+      @click="goToDetailView(item)"
     >
-      <!-- {{ item }} -->
       <div class="Recipes__itemImageContainer">
         <img :src="'https://spoonacular.com/recipeImages/' + item.image">
       </div>
@@ -16,21 +16,31 @@
     </div>
     <div
       v-for="(item, index) in [0,0,0]"
-      :key="index"
+      :key="index + 'placeholder'"
       class="Recipes__invisible"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
+import dataMxn from '@/js/data';
 
 export default {
   name: 'Recipes',
   components: {
   },
+  mixins: [dataMxn],
   computed: {
     ...mapGetters(['recipes']),
+  },
+  methods: {
+    ...mapActions([]),
+    goToDetailView(item) {
+      console.log(item.id);
+      this.dataMxn.getRecipeDetail(item.id);
+      this.$router.push(`/detail/${item.id}`);
+    },
   },
 };
 </script>

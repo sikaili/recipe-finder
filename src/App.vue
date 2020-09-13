@@ -1,13 +1,10 @@
 <template>
   <div id="app">
-    <search-component />
-    <recipes-component />
+    <router-view /></router-view>
   </div>
 </template>
 
 <script>
-import RecipesComponent from './components/Recipes.vue';
-import SearchComponent from './components/Search.vue';
 
 const res = {
   results: [
@@ -112,10 +109,6 @@ const res = {
 };
 export default {
   name: 'App',
-  components: {
-    RecipesComponent,
-    SearchComponent,
-  },
   beforeCreate() {
     this.$store.dispatch('setRecipes', res.results);
   },

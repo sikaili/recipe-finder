@@ -1,10 +1,16 @@
 <template>
-  <div>
+  <div class="Search">
     <input
       v-model="input"
       v-debounce:800ms="getRecipes"
+      class="Search__input"
     >
-    <button @click="getRecipes" />
+    <button
+      class="Search__button"
+      @click="getRecipes"
+    >
+      Search
+    </button>
   </div>
 </template>
 
@@ -25,17 +31,38 @@ export default {
   computed: {
     ...mapGetters(['recipes']),
   },
-  watch: {
-    input() {
-    },
-  },
   methods: {
     getRecipes() {
-      this.dataMxn.getRecipe(this.input);
+      this.dataMxn.getRecipes(this.input);
     },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .Search {
+    max-width: 960px;
+    font-size: 36px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px;
+
+    &__input {
+      font-size: 18px;
+      width: 20%;
+      height: 46px;
+      padding: 0;
+      border: 1px solid black;
+    }
+
+    &__button {
+      font-size: 18px;
+      // width: 20%;
+      height: 48px;
+      border: none;
+      color: white;
+      background-color: #000;
+      // border: 1px solid black;
+    }
+  }
 </style>
