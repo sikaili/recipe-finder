@@ -10,7 +10,7 @@ export default {
           .get(
             `https://api.spoonacular.com/recipes/autocomplete?number=5&query=${search}&apiKey=${API_KEY}`,
           ),
-        getRecipes: (search) => {
+        getRecipes: (search = 'burger') => {
           this.$store.dispatch('setLoading', true);
           axios
             .get(
@@ -29,7 +29,6 @@ export default {
               `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=${API_KEY}`,
             )
             .then((res) => {
-              console.log(res.data);
               this.$store.dispatch('setRecipeInformation', res.data);
               this.$store.dispatch('setLoading', false);
             });

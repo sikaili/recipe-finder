@@ -93,13 +93,11 @@ export default {
       this.dataMxn.getRecipes(this.input);
     },
     goToDetailView(item) {
-      console.log(item.id);
       this.dataMxn.getRecipeDetail(item.id);
       this.$router.push(`/detail/${item.id}`);
     },
     getAutocomplete() {
       this.dataMxn.getAutocomplete(this.input).then((res) => {
-        console.log(res.data);
         this.list = res.data;
       });
     },
@@ -123,7 +121,6 @@ export default {
     &__card {
       max-width: 820px;
       width: 100%;
-      // margin: 0 16px;
     }
 
     &__wrapper {

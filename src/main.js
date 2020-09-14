@@ -20,17 +20,3 @@ window.vm = new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount('#app');
-
-// fetch("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/479101/information", {
-// 	"method": "GET",
-// 	"headers": {
-// 		"x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-// 		"x-rapidapi-key": "44ff644f1emsh8da8a6ef81c2406p19e319jsnd56e44b1d5b3"
-// 	}
-// })
-// .then(response => {
-// 	console.log(response);
-// })
-// .catch(err => {
-// 	console.log(err);
-// });

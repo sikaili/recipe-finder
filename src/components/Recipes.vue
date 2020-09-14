@@ -16,7 +16,6 @@
     >
       My favorite recipes:
     </h2>
-
     <div class="Recipes">
       <div
         v-for="(item,index) in (type!=='saved'? recipes : savedRecipes)"
@@ -80,7 +79,6 @@ export default {
   methods: {
     ...mapActions([]),
     goToDetailView(item) {
-      console.log(item.id);
       this.dataMxn.getRecipeDetail(item.id);
       this.$router.push(`/detail/${item.id}`);
       this.$store.dispatch('setCurrentRecipe', item);
@@ -102,54 +100,54 @@ export default {
     justify-content: center;
 
     &__invisible {
-        margin: 16px;
-        width: 250px;
-        height: 0;
+      margin: 16px;
+      width: 250px;
+      height: 0;
     }
 
     &__title {
-        white-space: nowrap;
-        max-width: 200px;
-        text-overflow: ellipsis;
-        clear: both;
-        display: inline-block;
-        overflow: hidden;
+      white-space: nowrap;
+      max-width: 200px;
+      text-overflow: ellipsis;
+      clear: both;
+      display: inline-block;
+      overflow: hidden;
     }
 
     &__item {
-        justify-self: flex-start;
-        display: flex;
-        flex-flow: column wrap;
-        align-items: center;
-        font-size: 14px;
-        margin: 16px;
+      justify-self: flex-start;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: center;
+      font-size: 14px;
+      margin: 16px;
 
-        &ImageContainer {
-            max-height: 200px;
-            max-width: 250px;
-            overflow: hidden;
-        }
+      &ImageContainer {
+          max-height: 200px;
+          max-width: 250px;
+          overflow: hidden;
+      }
 
-        p {
-            max-width: 150px;
-        }
+      p {
+          max-width: 150px;
+      }
 
-        img {
-            align-self: center;
-            max-height: 300px;
-            width: 300px;
+      img {
+          align-self: center;
+          max-height: 300px;
+          width: 300px;
 
-            &:before {
-              font-size: 48px;
-              color: white;
-              padding-top: 10%;
-              content: '404';
-              display: block;
-              height: 300px;
-              width: 250px;
-              background-color: #eee;
-            }
+          &:before {
+            font-size: 48px;
+            color: white;
+            padding-top: 10%;
+            content: '404';
+            display: block;
+            height: 300px;
+            width: 250px;
+            background-color: #eee;
           }
+        }
     }
 }
 </style>
