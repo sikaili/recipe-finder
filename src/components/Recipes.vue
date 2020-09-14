@@ -1,24 +1,32 @@
 <template>
-  <div class="Recipes">
-    <div
-      v-for="(item,index) in recipes"
-      :key="index + 'recipes'"
-      class="Recipes__item"
-      @click="goToDetailView(item)"
+  <div>
+    <h2
+      v-if="recipes && recipes.length===0"
+      class="Recipes__empty"
     >
-      <div class="Recipes__itemImageContainer">
-        <img :src="'https://spoonacular.com/recipeImages/' + item.image">
+      No recipes found, please try searching something else
+    </h2>
+    <div class="Recipes">
+      <div
+        v-for="(item,index) in recipes"
+        :key="index + 'recipes'"
+        class="Recipes__item"
+        @click="goToDetailView(item)"
+      >
+        <div class="Recipes__itemImageContainer">
+          <img :src="'https://spoonacular.com/recipeImages/' + item.image">
+        </div>
+        <div>
+          <p>{{ item.title }}</p>
+          <div />
+        </div>
       </div>
-      <div>
-        <p>{{ item.title }}</p>
-        <div />
-      </div>
+      <div
+        v-for="(item, index) in [0,0,0]"
+        :key="index + 'placeholder'"
+        class="Recipes__invisible"
+      />
     </div>
-    <div
-      v-for="(item, index) in [0,0,0]"
-      :key="index + 'placeholder'"
-      class="Recipes__invisible"
-    />
   </div>
 </template>
 
@@ -45,50 +53,44 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.Recipes{
-  max-width: 960px;
-  margin:0 auto;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-
-  &__invisible {
-    margin: 16px;
-    width: 250px;
-    height:0;
-  }
-
-  &__item {
-    justify-self: flex-start;
+<style lang="scss" scoped>
+.Recipes {
+    max-width: 960px;
+    margin: 0 auto;
     display: flex;
-    flex-flow: column wrap;
-    align-items: center;
-    font-size: 14px;
-    border: 1px solid black;
-    margin: 16px;
+    flex-flow: row wrap;
+    justify-content: center;
 
-    &ImageContainer {
-      max-height: 200px;
-      max-width: 250px;
-      overflow: hidden;
-
+    &__invisible {
+        margin: 16px;
+        width: 250px;
+        height: 0;
     }
 
-    p {
-      max-width: 150px;
-    }
+    &__item {
+        justify-self: flex-start;
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        font-size: 14px;
+        border: 1px solid #2c3e50;
+        margin: 16px;
 
-    &Image {
+        &ImageContainer {
+            max-height: 200px;
+            max-width: 250px;
+            overflow: hidden;
+        }
 
-    }
+        p {
+            max-width: 150px;
+        }
 
-    img {
-      align-self: center;
-      width: auto;
-      max-height: 300px;
-      width: 300px;
+        img {
+            align-self: center;
+            max-height: 300px;
+            width: 300px;
+        }
     }
-  }
 }
 </style>

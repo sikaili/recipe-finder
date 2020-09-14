@@ -1,10 +1,20 @@
 <template>
   <div id="app">
-    <router-view /></router-view>
+    <router-view />
+    <div
+      v-if="loading"
+      class="Loader"
+    >
+      <p class="Loader__text">
+        loading...
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import dataMxn from '@/js/data';
 
 const res = {
   results: [
@@ -109,13 +119,21 @@ const res = {
 };
 export default {
   name: 'App',
+  mixins: [dataMxn],
+  computed: {
+    ...mapGetters(['loading']),
+  },
   beforeCreate() {
     this.$store.dispatch('setRecipes', res.results);
   },
+  // mounted() {
+  //   this.dataMxn.getRecipes('burger');
+  // },
+
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -123,5 +141,39 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.Loader {
+  position: fixed;
+  top:0;
+  right:0;
+  width: 100%;
+  height: 100%;
+  background: rgba(127,127,127,0.6);
+
+  &__text {
+    animation-duration: 2s;
+    animation-name: slidein;
+    animation-iteration-count: infinite;
+    font-size: 30px;
+    margin-top: 50%;
+    color: white;
+  }
+
+  @keyframes slidein {
+    from {
+      opacity: 0.1;
+      margin-top: 60%;
+    }
+
+    70% {
+      opacity: 1;
+      margin-top: 50%;
+    }
+
+    to {
+      opacity: 0;
+      margin-top: 40%;
+    }
+  }
 }
 </style>

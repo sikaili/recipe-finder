@@ -15,6 +15,9 @@ const mutations = {
   SET_RECIPE_INFORMATION(state, payload) {
     state.recipeInformation = payload;
   },
+  SET_LOADING(state, payload) {
+    state.loading = payload;
+  },
 };
 const actions = {
   setRecipes(context, payload) {
@@ -23,6 +26,9 @@ const actions = {
   setRecipeInformation(context, payload) {
     context.commit('SET_RECIPE_INFORMATION', payload);
   },
+  setLoading(context, payload) {
+    context.commit('SET_LOADING', payload);
+  },
 };
 const getters = {
   recipes(state) {
@@ -30,6 +36,9 @@ const getters = {
   },
   recipeInformation(state) {
     return state.recipeInformation;
+  },
+  loading(state) {
+    return state.loading;
   },
 };
 

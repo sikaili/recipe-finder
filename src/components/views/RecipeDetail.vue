@@ -1,31 +1,42 @@
 <template>
   <div>
-    <h1>{{ recipeInformation.title }}</h1>
-    <p>Preparation time: {{ recipeInformation.readyInMinutes }} mins</p>
-    <img
-      class="RecipeDetail__img"
-      :src="recipeInformation.image"
+    <button @click="$router.go(-1)">
+      Back
+    </button>
+    <h2
+      v-if="!recipeInformation || (recipeInformation && !recipeInformation.title)"
+      @click="$router.go(-1)"
     >
-    <h3>Ingredients</h3>
-    <ul class="RecipeDetail__ingredients">
-      <li
-        v-for="(ingredient,index) in recipeInformation.extendedIngredients"
-        :key="index + 'ingre'"
-        class="RecipeDetail__ingredient"
+      Ooops the recipe is not found, please go back
+    </h2>
+    <template v-else>
+      <h1>{{ recipeInformation.title }}</h1>
+      <p>Preparation time: {{ recipeInformation.readyInMinutes }} mins</p>
+      <img
+        class="RecipeDetail__img"
+        :src="recipeInformation.image"
       >
-        {{ ingredient.name }}: {{ ingredient.amount + ' ' + ingredient.unit }}
-      </li>
-    </ul>
-    <h3>Preparation</h3>
-    <ol class="RecipeDetail__steps">
-      <li
-        v-for="(step,index) in recipeInformation.analyzedInstructions[0].steps"
-        :key="index + 'step'"
-        class="RecipeDetail__step"
-      >
-        {{ step.step }}
-      </li>
-    </ol>
+      <h3>Ingredients</h3>
+      <ul class="RecipeDetail__ingredients">
+        <li
+          v-for="(ingredient,index) in recipeInformation.extendedIngredients"
+          :key="index + 'ingre'"
+          class="RecipeDetail__ingredient"
+        >
+          {{ ingredient.name }}: {{ ingredient.amount + ' ' + ingredient.unit }}
+        </li>
+      </ul>
+      <h3>Preparation</h3>
+      <ol class="RecipeDetail__steps">
+        <li
+          v-for="(step, index) in recipeInformation.analyzedInstructions[0].steps"
+          :key="index + 'step'"
+          class="RecipeDetail__step"
+        >
+          {{ step.step }}
+        </li>
+      </ol>
+    </template>
   </div>
 </template>
 
@@ -57,6 +68,7 @@ export default {
 <style lang="scss" scoped>
 .RecipeDetail {
   &__img {
+    width: 70%;
     max-width: 400px;
   }
 

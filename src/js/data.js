@@ -6,20 +6,24 @@ export default {
   computed: {
     dataMxn() {
       return {
+        getAutocomplete: (search) => axios
+          .get(
+            `https://api.spoonacular.com/recipes/autocomplete?number=5&query=${search}&apiKey=${API_KEY}`,
+          ),
         getRecipes: (search) => {
+          this.$store.dispatch('setLoading', true);
           axios
             .get(
               `https://api.spoonacular.com/recipes/search?query=${search}&apiKey=${API_KEY}`,
             )
             .then((res) => {
               const recipes = res.data.results;
-              const image_URI = res.data.baseUri;
-              console.log(res.data);
               this.$store.dispatch('setRecipes', recipes);
-              // this.setState({ recipes, imageURI: image_URI });
+              this.$store.dispatch('setLoading', false);
             });
         },
         getRecipeDetail: (id) => {
+          this.$store.dispatch('setLoading', true);
           axios
             .get(
               `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=${API_KEY}`,
@@ -27,7 +31,7 @@ export default {
             .then((res) => {
               console.log(res.data);
               this.$store.dispatch('setRecipeInformation', res.data);
-            // this.setState({ recipes, imageURI: image_URI });
+              this.$store.dispatch('setLoading', false);
             });
         },
       };
