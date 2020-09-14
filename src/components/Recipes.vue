@@ -6,19 +6,27 @@
     >
       No recipes found, please try searching something else
     </h2>
+    <h2 v-if="type==='saved' && savedRecipes.length>0">
+      my favorite recipes:
+    </h2>
+
     <div class="Recipes">
       <div
-        v-for="(item,index) in recipes"
+        v-for="(item,index) in (type!=='saved'? recipes : savedRecipes)"
         :key="index + 'recipes'"
         class="Recipes__item"
-        @click="goToDetailView(item)"
       >
-        <div class="Recipes__itemImageContainer">
+        <a
+          class="Recipes__itemImageContainer"
+          @click="goToDetailView(item)"
+        >
           <img :src="'https://spoonacular.com/recipeImages/' + item.image">
-        </div>
+        </a>
         <div>
           <p>{{ item.title }}</p>
-          <div />
+          <p @click="toggleItemLocal(item)">
+            {{ isSaved(item) }}
+          </p>
         </div>
       </div>
       <div
@@ -39,8 +47,16 @@ export default {
   components: {
   },
   mixins: [dataMxn],
+  props: {
+    type: {
+      default: '',
+      type: String,
+    },
+  },
   computed: {
-    ...mapGetters(['recipes']),
+    ...mapGetters(['recipes', 'savedRecipes', 'isSaved']),
+  },
+  created() {
   },
   methods: {
     ...mapActions([]),
@@ -48,6 +64,9 @@ export default {
       console.log(item.id);
       this.dataMxn.getRecipeDetail(item.id);
       this.$router.push(`/detail/${item.id}`);
+    },
+    toggleItemLocal(item) {
+      this.$store.dispatch('setSavedRecipes', { data: item, delete: this.isSaved(item) });
     },
   },
 };
@@ -90,7 +109,18 @@ export default {
             align-self: center;
             max-height: 300px;
             width: 300px;
-        }
+
+            &:before {
+              font-size: 48px;
+              color: white;
+              padding-top: 10%;
+              content: '404';
+              display: block;
+              height: 300px;
+              width: 250px;
+              background-color: #eee;
+            }
+          }
     }
 }
 </style>

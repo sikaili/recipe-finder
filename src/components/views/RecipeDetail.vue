@@ -26,27 +26,33 @@
           {{ ingredient.name }}: {{ ingredient.amount + ' ' + ingredient.unit }}
         </li>
       </ul>
-      <h3>Preparation</h3>
-      <ol class="RecipeDetail__steps">
-        <li
-          v-for="(step, index) in recipeInformation.analyzedInstructions[0].steps"
-          :key="index + 'step'"
-          class="RecipeDetail__step"
-        >
-          {{ step.step }}
-        </li>
-      </ol>
+      <template v-if="recipeInformation.analyzedInstructions && recipeInformation.analyzedInstructions.length > 0">
+        <h3>Preparation</h3>
+        <ol class="RecipeDetail__steps">
+          <li
+            v-for="(step, index) in recipeInformation.analyzedInstructions[0].steps"
+            :key="index + 'step'"
+            class="RecipeDetail__step"
+          >
+            {{ step.step }}
+          </li>
+        </ol>
+      </template>
     </template>
+    <recipes-component type="saved" />
   </div>
 </template>
 
 <script>
+import RecipesComponent from '@/components/Recipes.vue';
+
 import { mapGetters } from 'vuex';
 import dataMxn from '@/js/data';
 
 export default {
   name: 'RecipeDetail',
   components: {
+    RecipesComponent,
   },
   mixins: [dataMxn],
   data() {

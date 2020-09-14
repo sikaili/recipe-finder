@@ -125,10 +125,8 @@ export default {
   },
   beforeCreate() {
     this.$store.dispatch('setRecipes', res.results);
+    // this.$store.dispatch('setSavedRecipes', {});
   },
-  // mounted() {
-  //   this.dataMxn.getRecipes('burger');
-  // },
 
 };
 </script>

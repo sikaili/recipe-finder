@@ -2,6 +2,7 @@
   <div>
     <search-component />
     <recipes-component />
+    <recipes-component type="saved" />
   </div>
 </template>
 
