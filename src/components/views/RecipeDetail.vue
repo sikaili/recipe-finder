@@ -1,13 +1,21 @@
 <template>
-  <div>
-    <button @click="$router.go(-1)">
-      Back
-    </button>
-    <h2
-      v-if="!recipeInformation || (recipeInformation && !recipeInformation.title)"
+  <div class="RecipeDetail">
+    <v-btn
+      color="grey lighten-3"
+      class="mt-10 mb-10"
       @click="$router.go(-1)"
     >
-      Ooops the recipe is not found, please go back
+      Back
+      <v-icon right>
+        mdi-arrow-left
+      </v-icon>
+    </v-btn>
+    <h2
+      v-if="!recipeInformation || (recipeInformation && !recipeInformation.title)"
+      class="mt-10 mb-10 headline"
+      @click="$router.go(-1)"
+    >
+      Ooops the recipe is not found, please go back...
     </h2>
     <template v-else>
       <h1>{{ recipeInformation.title }}</h1>
@@ -15,8 +23,19 @@
       <img
         class="RecipeDetail__img"
         :src="recipeInformation.image"
+        @click.capture.stop="dataMxn.toggleItemLocal(currentRecipe)"
       >
-      <h3>Ingredients</h3>
+      <v-btn
+        icon
+        :color="isSaved(currentRecipe) ? 'pink':'#ddd'"
+        class="mb-5"
+        @click.capture.stop="dataMxn.toggleItemLocal(currentRecipe)"
+      >
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+      <h3>
+        Ingredients
+      </h3>
       <ul class="RecipeDetail__ingredients">
         <li
           v-for="(ingredient,index) in recipeInformation.extendedIngredients"
@@ -60,32 +79,30 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['recipes', 'recipeInformation']),
-  },
-  watch: {
-    input() {
-    },
-  },
-  methods: {
+    ...mapGetters(['recipes', 'recipeInformation', 'currentRecipe', 'isSaved']),
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .RecipeDetail {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
   &__img {
     width: 70%;
     max-width: 400px;
+    margin-bottom: 24px;
   }
 
   &__ingredients {
-    padding: 0 24px 24px;
+    padding: 12px 24px 24px;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
   }
 
-  &__ingredient{
+  &__ingredient {
     background:#eee;
     margin: 8px 16px;
     padding: 4px;

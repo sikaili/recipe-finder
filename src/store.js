@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 const state = {
   recipes: [],
+  currentRecipe: {},
   recipeInformation: {},
   savedRecipes: JSON.parse(localStorage.getItem('saved-recipes')) || [],
   loading: false,
@@ -32,10 +33,16 @@ const mutations = {
       localStorage.setItem('saved-recipes', JSON.stringify(state.savedRecipes));
     }
   },
+  SET_CURRENTRECIPE(state, payload) {
+    this.state.currentRecipe = payload;
+  },
 };
 const actions = {
   setRecipes(context, payload) {
     context.commit('SET_RECIPES', payload);
+  },
+  setCurrentRecipe(context, payload) {
+    context.commit('SET_CURRENTRECIPE', payload);
   },
   setRecipeInformation(context, payload) {
     context.commit('SET_RECIPE_INFORMATION', payload);
@@ -59,6 +66,9 @@ const getters = {
   },
   savedRecipes(state) {
     return state.savedRecipes;
+  },
+  currentRecipe(state) {
+    return state.currentRecipe;
   },
   isSaved(state) {
     return (item) => state.savedRecipes.map((a) => +a.id).indexOf(+item.id) > -1;

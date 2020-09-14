@@ -34,6 +34,9 @@ export default {
               this.$store.dispatch('setLoading', false);
             });
         },
+        toggleItemLocal: (item) => {
+          this.$store.dispatch('setSavedRecipes', { data: item, delete: this.isSaved(item) });
+        },
       };
     },
   },

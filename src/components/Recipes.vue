@@ -1,13 +1,20 @@
 <template>
-  <div>
+  <div
+    :class="{'red lighten-3': type==='saved',
+             'grey lighten-3': type!=='saved'}"
+  >
     <h2
-      v-if="recipes && recipes.length===0"
-      class="Recipes__empty"
+      v-if="recipes && recipes.length===0 && type!=='saved'"
+      class="Recipes__empty pt-10 pb-4 headline"
     >
       No recipes found, please try searching something else
+      ...
     </h2>
-    <h2 v-if="type==='saved' && savedRecipes.length>0">
-      my favorite recipes:
+    <h2
+      v-if="type==='saved' && savedRecipes.length>0"
+      class="white--text pt-4 pb-4 headline red lighten-2"
+    >
+      My favorite recipes:
     </h2>
 
     <div class="Recipes">
@@ -16,18 +23,30 @@
         :key="index + 'recipes'"
         class="Recipes__item"
       >
-        <a
-          class="Recipes__itemImageContainer"
+        <v-card
+          class="mx-auto"
+          max-width="250"
           @click="goToDetailView(item)"
         >
-          <img :src="'https://spoonacular.com/recipeImages/' + item.image">
-        </a>
-        <div>
-          <p>{{ item.title }}</p>
-          <p @click="toggleItemLocal(item)">
-            {{ isSaved(item) }}
-          </p>
-        </div>
+          <v-img
+            class="white--text align-end"
+            height="200px"
+            :src="'https://spoonacular.com/recipeImages/' + item.image"
+          />
+
+          <v-card-subtitle class="pb-0 Recipes__title">
+            {{ item.title }}
+          </v-card-subtitle>
+          <v-card-actions>
+            <v-btn
+              icon
+              :color="isSaved(item) ? 'pink':'#ddd'"
+              @click.capture.stop="dataMxn.toggleItemLocal(item)"
+            >
+              <v-icon>mdi-heart</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </div>
       <div
         v-for="(item, index) in [0,0,0]"
@@ -64,6 +83,7 @@ export default {
       console.log(item.id);
       this.dataMxn.getRecipeDetail(item.id);
       this.$router.push(`/detail/${item.id}`);
+      this.$store.dispatch('setCurrentRecipe', item);
     },
     toggleItemLocal(item) {
       this.$store.dispatch('setSavedRecipes', { data: item, delete: this.isSaved(item) });
@@ -75,6 +95,7 @@ export default {
 <style lang="scss" scoped>
 .Recipes {
     max-width: 960px;
+    padding: 16px 0 0 0;
     margin: 0 auto;
     display: flex;
     flex-flow: row wrap;
@@ -86,13 +107,21 @@ export default {
         height: 0;
     }
 
+    &__title {
+        white-space: nowrap;
+        max-width: 200px;
+        text-overflow: ellipsis;
+        clear: both;
+        display: inline-block;
+        overflow: hidden;
+    }
+
     &__item {
         justify-self: flex-start;
         display: flex;
         flex-flow: column wrap;
         align-items: center;
         font-size: 14px;
-        border: 1px solid #2c3e50;
         margin: 16px;
 
         &ImageContainer {

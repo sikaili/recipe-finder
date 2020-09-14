@@ -1,28 +1,71 @@
 <template>
-  <div class="Search">
-    <div class="Search__wrapper">
-      <input
-        v-model="input"
-        v-debounce:1000ms="getAutocomplete"
-        class="Search__input"
-        @keyup.enter="getRecipes"
-      >
-      <ul class="Search__autocomplete">
-        <li
-          v-for="(item, index) in list"
-          :key="index"
-          @click="goToDetailView(item)"
-        >
-          {{ item.title }}
-        </li>
-      </ul>
-    </div>
-    <button
-      class="Search__button"
-      @click="getRecipes"
+  <div class="Search red lighten-4">
+    <v-card
+      class="Search__card"
+      color="red lighten-2"
+      dark
     >
-      Search
-    </button>
+      <v-card-title class="headline red lighten-3">
+        Search for recipes
+      </v-card-title>
+      <v-card-text>
+        <v-autocomplete
+          v-debounce:1000ms="getAutocomplete"
+          :search-input.sync="input"
+          :loading="loading"
+          color="white"
+          hide-no-data
+          hide-selected
+          item-text="Description"
+          item-value="Burger"
+          label="Recipes"
+          placeholder="Start typing to Search"
+          prepend-icon="mdi-database-search"
+          return-object
+          @blur="emptyList"
+          @keyup.enter="getRecipes"
+        />
+      </v-card-text>
+      <v-divider />
+      <v-expand-transition>
+        <v-list
+          v-if="list.length > 0"
+          class="red lighten-3"
+        >
+          <v-list-item
+            v-for="(field, i) in list"
+            :key="i"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="field.title" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-expand-transition>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          :disabled="!input"
+          color="grey darken-3"
+          @click="model = null"
+        >
+          Clear
+          <v-icon right>
+            mdi-close-circle
+          </v-icon>
+        </v-btn>
+        <v-btn
+          :disabled="!input"
+          color="blue lighten-1"
+          @click.capture.stop="getRecipes"
+        >
+          Search
+          <v-icon right>
+            mdi-keyboard-return
+          </v-icon>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -42,7 +85,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['recipes']),
+    ...mapGetters(['recipes', 'loading']),
   },
   methods: {
     getRecipes() {
@@ -56,9 +99,14 @@ export default {
     },
     getAutocomplete() {
       this.dataMxn.getAutocomplete(this.input).then((res) => {
-        console.log(res);
+        console.log(res.data);
         this.list = res.data;
       });
+    },
+    emptyList() {
+      setTimeout(() => {
+        this.list = [];
+      }, 200);
     },
   },
 };
@@ -66,11 +114,17 @@ export default {
 
 <style lang="scss" scoped>
   .Search {
-    max-width: 960px;
     font-size: 36px;
     display: flex;
     justify-content: center;
-    margin: 16px auto;
+    margin: 0 auto;
+    padding: 36px 16px;
+
+    &__card {
+      max-width: 820px;
+      width: 100%;
+      // margin: 0 16px;
+    }
 
     &__wrapper {
       padding: 0 0 0 0;
