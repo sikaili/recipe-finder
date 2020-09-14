@@ -1,25 +1,28 @@
 <template>
   <div class="Search">
-    <input
-      v-model="input"
-      v-debounce:1000ms="getAutocomplete"
-      class="Search__input"
-      @keyup.enter="getRecipes"
-    >
+    <div class="Search__wrapper">
+      <input
+        v-model="input"
+        v-debounce:1000ms="getAutocomplete"
+        class="Search__input"
+        @keyup.enter="getRecipes"
+      >
+      <ul class="Search__autocomplete">
+        <li
+          v-for="(item, index) in list"
+          :key="index"
+          @click="goToDetailView(item)"
+        >
+          {{ item.title }}
+        </li>
+      </ul>
+    </div>
     <button
       class="Search__button"
       @click="getRecipes"
     >
       Search
     </button>
-    <ul class="Search__autocomplete">
-      <li
-        v-for="(item, index) in list"
-        :key="index"
-      >
-        {{ item.title }}
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -43,7 +46,13 @@ export default {
   },
   methods: {
     getRecipes() {
+      this.list = [];
       this.dataMxn.getRecipes(this.input);
+    },
+    goToDetailView(item) {
+      console.log(item.id);
+      this.dataMxn.getRecipeDetail(item.id);
+      this.$router.push(`/detail/${item.id}`);
     },
     getAutocomplete() {
       this.dataMxn.getAutocomplete(this.input).then((res) => {
@@ -63,14 +72,34 @@ export default {
     justify-content: center;
     margin: 16px auto;
 
-    &__autocomplete {
-      width: 180px;
+    &__wrapper {
+      padding: 0 0 0 0;
+      margin: 0 0 0 0;
+      display: flex;
+      flex-direction: column;
     }
+
+    &__autocomplete {
+      width: 182px;
+      font-size: 14px;
+      text-align: left;
+      list-style: none;
+      padding: 0;
+      margin-top: -2px;
+
+      li {
+        padding-left: 8px;
+        line-height: 28px;
+        border: 1px solid grey;
+        border-top: none;
+      }
+    }
+
     &__input {
-      width: 180px;
+      width: 172px;
       font-size: 18px;
       height: 30px;
-      padding: 0;
+      padding: 0 0 0 8px;
       border: 1px solid #2c3e50;
     }
 
