@@ -35,6 +35,7 @@
           <v-list-item
             v-for="(field, i) in list"
             :key="i"
+            @click.capture.stop="(goToDetailView(field))"
           >
             <v-list-item-content>
               <v-list-item-title v-text="field.title" />
