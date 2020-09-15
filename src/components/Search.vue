@@ -1,5 +1,5 @@
 <template>
-  <div class="Search red lighten-4">
+  <div class="Search red lighten-4 js-search">
     <v-card
       class="Search__card"
       color="red lighten-2"

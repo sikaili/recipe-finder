@@ -3,7 +3,7 @@
     <v-btn
       color="grey lighten-3"
       class="mt-10 mb-10"
-      @click="$router.go(-1)"
+      @click="$router.push({path:'/'})"
     >
       Back
       <v-icon right>

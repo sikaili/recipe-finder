@@ -1,7 +1,8 @@
 <template>
   <div
     :class="{'red lighten-3': type==='saved',
-             'grey lighten-3': type!=='saved'}"
+             'grey lighten-3': type!=='saved',
+             'js-saved': type === 'saved'}"
   >
     <h2
       v-if="recipes && recipes.length===0 && type==='general'"
@@ -15,6 +16,15 @@
       class="white--text pt-4 pb-4 headline red lighten-2"
     >
       My favorite recipes:
+    </h2>
+    <h2
+      v-if="type==='saved' && recipes.length==0"
+      class="white--text pt-4 pb-4 headline red lighten-2"
+    >
+      You don't have any saved recipe, tap <v-icon color="white">
+        mdi-heart
+      </v-icon>
+      to add some.
     </h2>
     <h2
       v-if="type==='similar' && recipes.length > 0"

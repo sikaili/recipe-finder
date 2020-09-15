@@ -1,5 +1,8 @@
 <template>
-  <v-app id="app">
+  <v-app
+    id="app"
+  >
+    <the-navigation-component />
     <router-view />
     <div
       v-if="loading"
@@ -9,15 +12,20 @@
         loading...
       </p>
     </div>
+    </the-navigation-components>
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import dataMxn from '@/js/data';
+import TheNavigationComponent from '@/components/TheNavigation.vue';
 
 export default {
   name: 'App',
+  components: {
+    TheNavigationComponent,
+  },
   mixins: [dataMxn],
   computed: {
     ...mapGetters(['loading']),
