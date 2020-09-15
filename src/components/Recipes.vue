@@ -41,11 +41,11 @@
 
           <v-card-subtitle
             class="pb-0 Recipes__title"
-            :style="{'max-width':imageWidth * 0.8 + 'px'}"
+            :style="{'max-width':imageWidth * 0.85 + 'px'}"
           >
             {{ item.title }}
           </v-card-subtitle>
-          <v-card-actions>
+          <v-card-actions class="Recipes__titleActions">
             <v-btn
               icon
               :color="isSaved(item) ? 'pink':'#ddd'"
@@ -133,6 +133,19 @@ export default {
       clear: both;
       display: inline-block;
       overflow: hidden;
+
+      &Actions {
+        display: flex;
+        justify-content: center;
+      }
+
+      @media(max-width: 650px) {
+        padding-top: 4px;
+
+        &Actions {
+          padding-top: 0;
+        }
+      }
     }
 
     &__item {

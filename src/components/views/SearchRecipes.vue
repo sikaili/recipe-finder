@@ -4,6 +4,7 @@
     <recipes-component
       type="general"
       :recipes="recipes"
+      :image-width="$isMobile()?150:250"
     />
     <recipes-component
       type="saved"
