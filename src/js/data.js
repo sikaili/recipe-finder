@@ -22,6 +22,13 @@ export default {
               this.$store.dispatch('setLoading', false);
             });
         },
+        getSimilarRecipes: (id) => {
+          this.$store.dispatch('setLoading', true);
+          return axios
+            .get(
+              `https://api.spoonacular.com/recipes/${id}/similar?number=4&apiKey=${API_KEY}`,
+            );
+        },
         getRecipeDetail: (id) => {
           this.$store.dispatch('setLoading', true);
           axios

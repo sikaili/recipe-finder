@@ -4,36 +4,45 @@
              'grey lighten-3': type!=='saved'}"
   >
     <h2
-      v-if="recipes && recipes.length===0 && type!=='saved'"
+      v-if="recipes && recipes.length===0 && type==='general'"
       class="Recipes__empty pt-10 pb-4 headline"
     >
       No recipes found, please try searching something else
       ...
     </h2>
     <h2
-      v-if="type==='saved' && savedRecipes.length>0"
+      v-if="type==='saved' && recipes.length>0"
       class="white--text pt-4 pb-4 headline red lighten-2"
     >
       My favorite recipes:
     </h2>
+    <h2
+      v-if="type==='similar' && recipes.length > 0"
+      class="pt-4 pb-4 headline grey lighten-4"
+    >
+      Similar recipes:
+    </h2>
     <div class="Recipes">
       <div
-        v-for="(item,index) in (type!=='saved'? recipes : savedRecipes)"
+        v-for="(item,index) in (recipes)"
         :key="index + 'recipes'"
         class="Recipes__item"
       >
         <v-card
           class="mx-auto"
-          max-width="250"
+          :max-width="imageWidth"
           @click="goToDetailView(item)"
         >
           <v-img
             class="white--text align-end"
-            height="200px"
-            :src="'https://spoonacular.com/recipeImages/' + item.image"
+            :height="imageWidth*0.8 + 'px'"
+            :src="item && item.image ? (apiImageUrl + item.image) : (apiImageUrl + item.id + '-556x370.' + item.imageType)"
           />
 
-          <v-card-subtitle class="pb-0 Recipes__title">
+          <v-card-subtitle
+            class="pb-0 Recipes__title"
+            :style="{'max-width':imageWidth * 0.8 + 'px'}"
+          >
             {{ item.title }}
           </v-card-subtitle>
           <v-card-actions>
@@ -60,19 +69,31 @@
 import { mapGetters, mapActions } from 'vuex';
 import dataMxn from '@/js/data';
 
+const apiImageUrl = 'https://spoonacular.com/recipeImages/';
 export default {
   name: 'Recipes',
-  components: {
-  },
   mixins: [dataMxn],
   props: {
     type: {
       default: '',
       type: String,
     },
+    recipes: {
+      default: () => [],
+      type: Array,
+    },
+    imageWidth: {
+      default: 250,
+      type: Number,
+    },
+  },
+  data() {
+    return {
+      apiImageUrl,
+    };
   },
   computed: {
-    ...mapGetters(['recipes', 'savedRecipes', 'isSaved']),
+    ...mapGetters(['isSaved']),
   },
   created() {
   },

@@ -20,7 +20,7 @@
           item-value="Burger"
           label="Recipes"
           placeholder="Start typing to Search"
-          prepend-icon="mdi-database-search"
+          prepend-icon="mdi-feature-search"
           return-object
           @blur="emptyList"
           @keyup.enter="getRecipes"

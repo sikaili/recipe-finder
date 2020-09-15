@@ -70,6 +70,7 @@ export default {
   mixins: [dataMxn],
   data() {
     return {
+      similarRecipes: [],
     };
   },
   computed: {
